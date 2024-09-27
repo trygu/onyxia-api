@@ -1,0 +1,19 @@
+jacoco-coverage:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: 21
+
+    - name: Build, test, and generate coverage with verify
+      run: |
+        mvn clean verify
+
+    - name: Upload aggregated coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: aggregated-coverage-report
+        path: onyxia-api/target/jacoco-aggregate/

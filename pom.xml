@@ -5,24 +5,26 @@
     <groupId>innovation.insee</groupId>
     <artifactId>onyxia</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>pom</packaging> <!-- Keep it as pom -->
+    
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.4</version>
     </parent>
+
     <modules>
         <module>onyxia-model</module>
         <module>onyxia-api</module>
         <module>helm-wrapper</module>
     </modules>
-    <distributionManagement>
 
-    </distributionManagement>
     <properties>
         <fabric8io.version>6.13.3</fabric8io.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <!-- Set aggregation directory to onyxia-api's target -->
+        <jacoco.aggregate.dir>${project.basedir}/onyxia-api/target/jacoco-aggregate</jacoco.aggregate.dir>
     </properties>
 
     <dependencyManagement>
@@ -44,6 +46,8 @@
     <build>
         <pluginManagement>
             <plugins>
+
+                <!-- Spring Boot Plugins -->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -51,18 +55,8 @@
                         <skip>true</skip>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>build-info</id>
-                            <goals>
-                                <goal>build-info</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+
+                <!-- Spotless Plugin for Code Formatting -->
                 <plugin>
                     <groupId>com.diffplug.spotless</groupId>
                     <artifactId>spotless-maven-plugin</artifactId>
@@ -76,21 +70,28 @@
                         </java>
                     </configuration>
                 </plugin>
+
+                <!-- Surefire Plugin for Running Tests -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.5.0</version>
-                </plugin>            
+                </plugin>
+
+                <!-- JaCoCo Plugin for Coverage Reports -->
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>0.8.12</version>
                     <executions>
+                        <!-- Prepare the JaCoCo agent for modules -->
                         <execution>
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
                         </execution>
+
+                        <!-- Generate individual reports for each module -->
                         <execution>
                             <id>report</id>
                             <phase>verify</phase>
@@ -98,10 +99,23 @@
                                 <goal>report</goal>
                             </goals>
                         </execution>
+
+                        <!-- Aggregate reports in the onyxia-api module's target -->
+                        <execution>
+                            <id>jacoco-aggregate-report</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>report-aggregate</goal>
+                            </goals>
+                        </execution>
                     </executions>
+                    <configuration>
+                        <!-- Aggregate directory inside onyxia-api's target folder -->
+                        <outputDirectory>${project.basedir}/onyxia-api/target/jacoco-aggregate</outputDirectory>
+                    </configuration>
                 </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
-
 </project>
