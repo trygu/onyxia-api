@@ -25,14 +25,14 @@ jobs:
         run: |
           mvn clean verify
 
-      - name: Upload aggregated coverage report for onyxia-api
+      - name: Upload coverage report for onyxia-api
         uses: actions/upload-artifact@v4
         with:
-          name: aggregated-coverage-report-onyxia-api
+          name: coverage-report-onyxia-api
           path: onyxia-api/target/site/jacoco/
 
-      - name: Upload aggregated coverage report for helm-wrapper
+      - name: Upload coverage report for helm-wrapper
         uses: actions/upload-artifact@v4
         with:
-          name: aggregated-coverage-report-helm-wrapper
+          name: coverage-report-helm-wrapper
           path: helm-wrapper/target/site/jacoco/
