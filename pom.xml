@@ -19,7 +19,7 @@
     </modules>
 
     <properties>
-        <fabric8io.version>6.13.3</fabric8io.version>
+        <fabric8io.version>6.13.4</fabric8io.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
